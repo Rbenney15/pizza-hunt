@@ -46,6 +46,23 @@ const handlePizzaSubmit = event => {
     return topping.value;
   });
 
+  fetch('/api/pizzas', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+    .then(response => response.json())
+    .then(postResponse => {
+      alert('Pizza created successfully!');
+      console.log(postResponse);
+    })
+    .catch(err => {
+      console.log(err);
+  });
+
   if (!pizzaName || !createdBy || !toppings.length) {
     return;
   }
