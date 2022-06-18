@@ -46,6 +46,12 @@ const handlePizzaSubmit = event => {
     return topping.value;
   });
 
+  if (!pizzaName || !createdBy || !toppings.length) {
+    return;
+  }
+
+  const formData = { pizzaName, createdBy, size, toppings };
+
   fetch('/api/pizzas', {
     method: 'POST',
     headers: {
@@ -56,18 +62,12 @@ const handlePizzaSubmit = event => {
   })
     .then(response => response.json())
     .then(postResponse => {
-      alert('Pizza created successfully!');
       console.log(postResponse);
     })
     .catch(err => {
       console.log(err);
-  });
-
-  if (!pizzaName || !createdBy || !toppings.length) {
-    return;
-  }
-
-  const formData = { pizzaName, createdBy, size, toppings };
+      saveRecord(formData);
+    });
 };
 
 $pizzaForm.addEventListener('submit', handlePizzaSubmit);
